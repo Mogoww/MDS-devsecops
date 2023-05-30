@@ -20,15 +20,11 @@ jobs:
         run: echo "url: $(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
       - uses: actions/github-script@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.event.pull_request.labels.forEach(label => {
-              if (label.name === 'preview') {
-                github.issues.addLabels({
-                  issue_number: github.context.issue.number,
-                  owner: github.context.repo.owner,
-                  repo: github.context.repo.repo,
-                  labels: ['preview-url']
-                })
-              }
-            })
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'The preview URL is: ${{ steps.deploy.outputs.url }}.'
+            });

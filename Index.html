@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Page vulnérable</title>
-</head>
-<body>
-	<h1>Page vulnérable</h1>
-	<form action="<http://www.monapplicationweb.com/login.php>" method="post">
-		<label for="username">Nom d'utilisateur :</label>
-		<input type="text" id="username" name="username">
-
-
-		<label for="password">Mot de passe :</label>
-		<input type="password" id="password" name="password">
-
-
-		<input type="submit" value="Se connecter">
-	</form>
-	<script>
-		var username = prompt("Entrez votre nom d'utilisateur :");
-		document.getElementById("username").value = username;
-	</script>
-</body>
+  <head>
+    <title>Exemple de XSS</title>
+  </head>
+  <body>
+    <h1>Bienvenue sur notre site web!</h1>
+    <p>Entrez votre nom:</p>
+    <input type="text" id="nom">
+    <button onclick="afficherNom()">Envoyer</button>
+    <script>
+      function afficherNom() {
+        var nom = document.getElementById("nom").value;
+        document.write("<p>Bonjour " + nom + "!</p>");
+      }
+    </script>
+  </body>
 </html>

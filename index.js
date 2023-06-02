@@ -1,21 +1,8 @@
-const h1 = document.createElement('h1')
-
-
-
-
-const params = new URLSearchParams(window.location.search)
-
-
-
-
-const mister = params.get('name')
-
-
-
-
-h1.innerHTML = `Hello ${mister}`
-
-
-
-
-document.querySelector('body').appendChild(h1)
+let titleElement = document.getElementById("title");
+let name = new URLSearchParams(window.location.search).get("name");
+console.log(name);
+console.log(titleElement);
+console.log(titleElement.innerHTML);
+if (name !== null) {
+  titleElement.innerHTML = `Hello name ${name}!`;
+}

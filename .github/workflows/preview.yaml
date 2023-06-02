@@ -18,9 +18,15 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         id: deploy
-        run: echo "url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
-      - if: ${{ job.status == 'success' }}
-        uses: actions/github-script@v3
+        run: |
+          if [ -f snyk-code.sarif ]; then
+            echo "Snyk Code test failed. Skipping deployment."
+            exit 1
+          else
+            echo "Snyk Code test passed. Deploying to Vercel."
+            vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+      - uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -30,3 +36,4 @@ jobs:
               repo: context.repo.repo,
               body: 'The preview URL is: ${{ steps.deploy.outputs.url }}.'
             });
+

@@ -2,11 +2,9 @@ name: Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
 on:
   pull_request:
     branches: ['main']
-
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
@@ -20,28 +18,14 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         id: deploy
-        run: |
-          echo "::set-output name=deploy-url::$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          echo "::set-output name=error-details::Deployment failed. Check the Vercel logs for more details."
-        continue-on-error: true
+        run: echo "url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
       - uses: actions/github-script@v3
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const deployUrl = "${{ steps.deploy.outputs.deploy-url }}";
-            if (deployUrl) {
-              github.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: 'The preview URL is: ' + deployUrl + '.'
-              });
-            } else {
-              const errorDetails = "${{ steps.deploy.outputs.error-details }}";
-              github.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: 'Deployment failed. Error details:\n' + errorDetails
-              });
-            }
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'The preview URL is: ${{ steps.deploy.outputs.url }}.'
+            });

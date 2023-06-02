@@ -3,8 +3,8 @@ env:
   SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 on:
-  pull_request:
-    branches: ["main"]
+  workflow_call:
+  
 
 permissions:
   contents: read

@@ -1,12 +1,21 @@
-// function afficherNom() {
-//     var nom = document.getElementById("nom").value;
-//     document.write("<p>Bonjour " + nom + "!</p>");
-//   }
+const h1 = document.createElement('h1')
 
-//   document.getElementById("bouton").addEventListener("click", afficherNom);
 
-let titleElement = document.getElementById("title");
-let name = new URLSearchParams(window.location.search).get("name");
-if (name !== null) {
-  titleElement.innerHTML = `Hello name`;
-}
+
+
+const params = new URLSearchParams(window.location.search)
+
+
+
+
+const mister = params.get('name')
+
+
+
+
+h1.innerHTML = `Hello ${mister}`
+
+
+
+
+document.querySelector('body').appendChild(h1)

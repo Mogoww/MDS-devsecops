@@ -5,6 +5,9 @@ env:
 on:
   pull_request:
     branches: ['main']
+  workflow_run:
+    workflows: ['Snyk Security']
+  
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest

@@ -4,5 +4,5 @@ console.log(name);
 console.log(titleElement);
 console.log(titleElement.innerHTML);
 if (name !== null) {
-  titleElement.innerHTML = `Hello name!`;
+  titleElement.innerHTML = `Hello name ${name}`;
 }

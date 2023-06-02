@@ -5,13 +5,16 @@ env:
 on:
   pull_request:
     branches: ['main']
-  workflow_run:
-    workflows: ['Snyk Security']
   
 jobs:
+  Snyk-test:
+    uses: Mogoww/MDS-devsecops/.github/workflows/snyk-container.yml@main
+    secrets:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   Deploy-Preview:
     runs-on: ubuntu-latest
-    steps:
+    needs: Snyk-test
+    steps: 
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest

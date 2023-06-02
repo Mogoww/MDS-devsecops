@@ -1,10 +1,14 @@
 name: Snyk Security
-env:
-  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
 on:
   workflow_call:
-    
+    secrets:
+      SNYK_TOKEN:
+        required: true
+
+env:
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
 
 permissions:
   contents: read
